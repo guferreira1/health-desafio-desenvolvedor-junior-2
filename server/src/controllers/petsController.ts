@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   createPetService,
+  deletePetService,
   editPetService,
   getPetsService,
   selectPetService,
@@ -31,9 +32,9 @@ export const selectPetController = async (req: Request, res: Response) => {
 export const deletePetController = async (req: Request, res: Response) => {
   const petId = req.params.id;
 
-  const pet = await selectPetService(petId);
+  const pet = await deletePetService(petId);
 
-  return res.status(204).json(pet);
+  return res.status(204).json({});
 };
 
 export const editPetController = async (req: Request, res: Response) => {
