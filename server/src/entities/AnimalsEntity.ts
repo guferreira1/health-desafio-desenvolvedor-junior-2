@@ -27,7 +27,10 @@ export class Animal {
   owner_name: string;
 
   @Column()
-  owner_phone: number;
+  owner_phone: string;
+
+  @Column({ default: true })
+  isActive: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
