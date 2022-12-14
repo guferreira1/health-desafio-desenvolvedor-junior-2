@@ -1,3 +1,4 @@
+import { BadRequestErrror, UnauthorizedError } from "../helpers/errors";
 import { ICreatePet, IEditPet } from "../interfaces/petsInterface";
 import { petsRepository } from "../repositories/PetsRepository";
 
@@ -27,6 +28,10 @@ export const getPetsService = async () => {
 export const selectPetService = async (id: string) => {
   const petSelected = await petsRepository.findOneBy({ id: id });
 
+  if (!petSelected) {
+    throw new BadRequestErrror("pet not found");
+  }
+
   return { pets: petSelected };
 };
 
@@ -34,11 +39,11 @@ export const deletePetService = async (id: string) => {
   const petSelected = await petsRepository.findOneBy({ id: id });
 
   if (!petSelected) {
-    return ["erro"];
+    throw new BadRequestErrror("pet not found");
   }
 
   if (!petSelected.isActive) {
-    return ["erro"];
+    throw new BadRequestErrror("pet not found");
   }
 
   const deletePet = await petsRepository.update(id, {
@@ -56,7 +61,7 @@ export const editPetService = async (payload: IEditPet, id: string) => {
     payload.hasOwnProperty("isActive") ||
     payload.hasOwnProperty("type")
   ) {
-    return ["erro"];
+    throw new UnauthorizedError("must not be able to update this pet's data");
   }
 
   await petsRepository.update(id, {
