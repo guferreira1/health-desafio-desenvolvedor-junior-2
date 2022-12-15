@@ -22,7 +22,9 @@ export const createPetService = async (newPet: ICreatePet) => {
 export const getPetsService = async () => {
   const pets = await petsRepository.createQueryBuilder("animals").getMany();
 
-  return { pets: pets };
+  const petActives = pets.filter((item) => item.isActive !== false);
+
+  return { pets: petActives };
 };
 
 export const selectPetService = async (id: string) => {
