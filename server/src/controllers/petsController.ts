@@ -1,44 +1,40 @@
 import { Request, Response } from "express";
-import {
-  createPetService,
-  deletePetService,
-  editPetService,
-  getPetsService,
-  selectPetService,
-} from "../services/petsServices";
+import { PetsServices } from "../services/petsServices";
 
-export const createPetsController = async (req: Request, res: Response) => {
-  const data = req.body;
+export class PetsController extends PetsServices {
+  createPetsController = async (req: Request, res: Response) => {
+    const data = req.body;
 
-  const pet = await createPetService(data);
+    const pet = await this.createPetService(data);
 
-  return res.status(201).json(pet);
-};
+    return res.status(201).json(pet);
+  };
 
-export const getPetsController = async (req: Request, res: Response) => {
-  const pets = await getPetsService();
+  getPetsController = async (req: Request, res: Response) => {
+    const pets = await this.getPetsService();
 
-  return res.json(pets);
-};
+    return res.json(pets);
+  };
 
-export const selectPetController = async (req: Request, res: Response) => {
-  const petId = req.params.id;
+  selectPetController = async (req: Request, res: Response) => {
+    const petId = req.params.id;
 
-  const pet = await selectPetService(petId);
+    const pet = await this.selectPetService(petId);
 
-  return res.json(pet);
-};
+    return res.json(pet);
+  };
 
-export const deletePetController = async (req: Request, res: Response) => {
-  const petId = req.params.id;
+  deletePetController = async (req: Request, res: Response) => {
+    const petId = req.params.id;
 
-  const pet = await deletePetService(petId);
+    const pet = await this.deletePetService(petId);
 
-  return res.status(204).json({});
-};
+    return res.status(204).json({});
+  };
 
-export const editPetController = async (req: Request, res: Response) => {
-  const pet = await editPetService(req.body, req.params.id);
+  editPetController = async (req: Request, res: Response) => {
+    const pet = await this.editPetService(req.body, req.params.id);
 
-  return res.json(pet);
-};
+    return res.json(pet);
+  };
+}

@@ -1,16 +1,10 @@
 import { Router } from "express";
-import {
-  createPetsController,
-  deletePetController,
-  editPetController,
-  getPetsController,
-  selectPetController,
-} from "../controllers/petsController";
+import { PetsController } from "../controllers/petsController";
 
 export const router = Router();
 
-router.post("/", createPetsController);
-router.get("/", getPetsController);
-router.get("/:id", selectPetController);
-router.delete("/:id", deletePetController);
-router.patch("/:id", editPetController);
+router.post("/", new PetsController().createPetsController);
+router.get("/", new PetsController().getPetsController);
+router.get("/:id", new PetsController().selectPetController);
+router.delete("/:id", new PetsController().deletePetController);
+router.patch("/:id", new PetsController().editPetController);
