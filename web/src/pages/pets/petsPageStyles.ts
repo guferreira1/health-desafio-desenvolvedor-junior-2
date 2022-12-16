@@ -7,5 +7,5 @@ export const PetStyles = styled.main`
   background-color: ${Colors.primary};
   gap: 20px;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 `;
