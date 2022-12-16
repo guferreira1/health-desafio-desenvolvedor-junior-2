@@ -1,29 +1,33 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { useDisclosure } from "@chakra-ui/react";
 import {
   editPetInterface,
   petsInterface,
   petsInterfaceResp,
 } from "../interfaces/petsInterface";
 import { Api } from "../services/api";
-import { useDisclosure } from "@chakra-ui/react";
-
+import { CustomToast } from "../components/Toast";
 interface PetsPropsInterface {
   children: ReactNode;
 }
 
 interface PetsProviderInterface {
   isPets: petsInterface[];
+  isPetSelected: petsInterface[];
   isOpenDelete: boolean;
   isOpenEdit: boolean;
+  isOpenPet: boolean;
   onCloseDelete: () => void;
   onOpenDelete: () => void;
   onCloseEdit: () => void;
   onOpenEdit: () => void;
-  getPets: () => Promise<void>;
+  onClosePet: () => void;
+  onOpenPet: () => void;
   petSelected: (id: string) => void;
   getId: (id: string) => void;
   removePet: () => Promise<void>;
   petEdited: (data: editPetInterface) => Promise<void>;
+  registerPet: (data: petsInterface) => Promise<void>;
 }
 
 export const PetsContext = createContext<PetsProviderInterface>(
@@ -43,43 +47,68 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
     onClose: onCloseEdit,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenPet,
+    onOpen: onOpenPet,
+    onClose: onClosePet,
+  } = useDisclosure();
+
   const [isPets, setIsPets] = useState<petsInterface[]>([]);
 
   const [isPetSelected, setIsPetSelected] = useState<petsInterface[]>([]);
 
-  const [isTypePets, setIsTypePets] = useState("");
-
   const [isId, setIsId] = useState("");
+
+  const { toastify } = CustomToast();
 
   const getId = (id: string) => {
     setIsId(id);
-    onOpenEdit();
+    petSelected(id);
+    onOpenPet();
   };
 
-  const getPets = async () => {
-    try {
-      const res = await Api.get("/");
-      setIsPets(res.data.pets);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    const getPets = async () => {
+      try {
+        const res = await Api.get("/");
+
+        setIsPets(res.data.pets);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getPets();
+  }, [isPets]);
+
+  useEffect(() => {}, []);
 
   const petSelected = async (id: string) => {
     try {
-      const res = await Api.get<petsInterfaceResp>(`/${isId}`);
+      const res = await Api.get<petsInterfaceResp>(`/${id}`);
 
-      setIsPetSelected(res.data.pets);
+      setIsPetSelected([res.data.pets]);
     } catch (error) {
       console.log(error);
     }
   };
 
   const petEdited = async (data: editPetInterface) => {
+    console.log(data);
     try {
       await Api.patch<petsInterface>(`/${isId}`, data);
-    } catch (error) {
+
+      toastify({
+        description: "Pet editado com sucesso!",
+        status: "success",
+      });
+    } catch (error: string | any) {
       console.log(error);
+
+      toastify({
+        description: "Algo deu errado, verifique os campos e tente novamente",
+        status: "error",
+      });
     }
   };
 
@@ -87,17 +116,37 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
     try {
       const res = await Api.post("/", data);
 
+      toastify({
+        description: "Pet cadastrado com sucesso",
+        status: "success",
+      });
+
       setIsPets([...isPets, res.data.pets]);
     } catch (error) {
       console.log(error);
+
+      toastify({
+        description: "Algo deu errado, verifique os campos e tente novamente",
+        status: "error",
+      });
     }
   };
 
   const removePet = async () => {
     try {
       await Api.delete(`/${isId}`);
+
+      toastify({
+        description: "Pet removido com sucesso",
+        status: "success",
+      });
     } catch (error) {
       console.log(error);
+
+      toastify({
+        description: "Algo deu errado, tente novamente",
+        status: "error",
+      });
     }
   };
 
@@ -105,10 +154,11 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
     <PetsContext.Provider
       value={{
         isPets,
-        getPets,
+        isPetSelected,
         petSelected,
         getId,
         petEdited,
+        registerPet,
         isOpenDelete,
         onCloseDelete,
         onOpenDelete,
@@ -116,6 +166,9 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
         isOpenEdit,
         onCloseEdit,
         onOpenEdit,
+        isOpenPet,
+        onClosePet,
+        onOpenPet,
       }}
     >
       {children}

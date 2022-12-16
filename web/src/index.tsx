@@ -5,7 +5,7 @@ import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { PetsProvider } from "./context/petsContext";
 import { BrowserRouter } from "react-router-dom";
-import { ChakraBaseProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ChakraBaseProvider>
+      <ChakraProvider>
         <PetsProvider>
           <App />
         </PetsProvider>
-      </ChakraBaseProvider>
+      </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
