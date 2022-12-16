@@ -1,7 +1,7 @@
 import { app } from "./app";
 import { AppDataSource } from "./data-source";
 
-const port = 3333;
+const port = 5000;
 
 (async () => {
   await AppDataSource.initialize().catch((error) => {

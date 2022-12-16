@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  frontend:
+    container_name: softmakers_frontend
+    build: ./web
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - ./web/src:/web/src
+    depends_on:
+      - backend
+
+  backend:
+    container_name: softmakers_backend
+    build: ./server
+    ports:
+      # - 3333:3333
+      - 5000:5000
+    restart: always
+    volumes:
+      - ./server/src:/server/src
+    environment:
+      - SECRET_KEY=secret
+      - PG_HOST=database
+      - PG_PORT=5432
+      - PG_USER=postgres
+      - PG_PASSWORD=postgres
+      - PG_DB=softmakers_database
+
+  database:
+    image: postgres
+    container_name: database_softmakers_api
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=softmakers_database
+    volumes:
+      - ./server/database:/var/lib/postgresqlp
+      - pgdata:/data/postgres
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  rede-virtual-1:
+  rede-virtual-2:

@@ -1,6 +1,6 @@
 FROM node:alpine
 
-WORKDIR /src/server
+WORKDIR /src/web
 
 COPY package*.json ./
 
@@ -8,6 +8,6 @@ RUN yarn
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 3000
 
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]
