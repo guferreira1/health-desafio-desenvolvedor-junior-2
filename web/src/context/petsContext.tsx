@@ -14,12 +14,16 @@ interface PetsPropsInterface {
 interface PetsProviderInterface {
   isPets: petsInterface[];
   isOpenDelete: boolean;
+  isOpenEdit: boolean;
   onCloseDelete: () => void;
   onOpenDelete: () => void;
+  onCloseEdit: () => void;
+  onOpenEdit: () => void;
   getPets: () => Promise<void>;
   petSelected: (id: string) => void;
   getId: (id: string) => void;
   removePet: () => Promise<void>;
+  petEdited: (data: editPetInterface) => Promise<void>;
 }
 
 export const PetsContext = createContext<PetsProviderInterface>(
@@ -33,6 +37,12 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
     onClose: onCloseDelete,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+
   const [isPets, setIsPets] = useState<petsInterface[]>([]);
 
   const [isPetSelected, setIsPetSelected] = useState<petsInterface[]>([]);
@@ -43,7 +53,7 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
 
   const getId = (id: string) => {
     setIsId(id);
-    onOpenDelete();
+    onOpenEdit();
   };
 
   const getPets = async () => {
@@ -67,7 +77,7 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
 
   const petEdited = async (data: editPetInterface) => {
     try {
-      await Api.patch(`/${isId}`, data);
+      await Api.patch<petsInterface>(`/${isId}`, data);
     } catch (error) {
       console.log(error);
     }
@@ -98,10 +108,14 @@ export const PetsProvider = ({ children }: PetsPropsInterface) => {
         getPets,
         petSelected,
         getId,
+        petEdited,
         isOpenDelete,
         onCloseDelete,
         onOpenDelete,
         removePet,
+        isOpenEdit,
+        onCloseEdit,
+        onOpenEdit,
       }}
     >
       {children}
