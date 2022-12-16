@@ -9,10 +9,6 @@ export const HomeStyles = styled.main`
   width: 100%;
   height: 100%;
 
-  @media (min-width: 768px) {
-    height: 100vh;
-  }
-
   .description {
     display: flex;
     flex-direction: column;
