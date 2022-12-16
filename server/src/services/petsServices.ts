@@ -1,4 +1,8 @@
-import { BadRequestErrror, UnauthorizedError } from "../helpers/errors";
+import {
+  BadRequestErrror,
+  NotFoundError,
+  UnauthorizedError,
+} from "../helpers/errors";
 import { ICreatePet, IEditPet } from "../interfaces/petsInterface";
 import { petsRepository } from "../repositories/PetsRepository";
 
@@ -32,7 +36,7 @@ export class PetsServices {
     const petSelected = await petsRepository.findOneBy({ id: id });
 
     if (!petSelected) {
-      throw new BadRequestErrror("pet not found");
+      throw new NotFoundError("pet not found");
     }
 
     return { pets: petSelected };
@@ -42,11 +46,11 @@ export class PetsServices {
     const petSelected = await petsRepository.findOneBy({ id: id });
 
     if (!petSelected) {
-      throw new BadRequestErrror("pet not found");
+      throw new NotFoundError("pet not found");
     }
 
     if (!petSelected.isActive) {
-      throw new BadRequestErrror("pet not found");
+      throw new NotFoundError("pet not found");
     }
 
     const deletePet = await petsRepository.update(id, {
