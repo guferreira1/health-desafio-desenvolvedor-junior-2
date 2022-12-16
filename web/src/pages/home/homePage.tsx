@@ -1,5 +1,5 @@
 import { HeaderComponent } from "../../components/headerComponent/headerComponent";
-import { SearchComponent } from "../../components/searchComponent/searchComponent";
+import { SearchComponent } from "../../components/searchComponent/registerPetComponent";
 import { HomeStyles } from "./homeStyles";
 
 export const HomePage = () => {
