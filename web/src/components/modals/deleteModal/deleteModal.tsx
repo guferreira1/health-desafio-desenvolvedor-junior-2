@@ -42,19 +42,18 @@ export const DeleteModal = () => {
         >
           <ModalHeader
             color={Colors.yellowMustard}
-            mt="9"
             textAlign="center"
             fontSize="20px"
           >
             Deletar Pet
           </ModalHeader>
           <ModalCloseButton
-            mt={-10}
+            mt={0}
             mr={2}
             color={Colors.yellowMustard}
             alignSelf="flex-end"
           />
-          <ModalBody pt={10} pb={6}>
+          <ModalBody pt={5} pb={6}>
             <Text color={Colors.feedback.negative} textAlign="center">
               Deseja mesmo excluir esse pet ?
             </Text>
