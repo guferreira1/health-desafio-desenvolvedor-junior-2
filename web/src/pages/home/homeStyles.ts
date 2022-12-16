@@ -22,11 +22,16 @@ export const HomeStyles = styled.main`
     gap: 20px;
     width: 80%;
 
+    @media (min-width: 768px) {
+      width: 50%;
+    }
+
     h1 {
       font-size: 1.5625rem;
       line-height: 1.875rem;
       font-weight: 700;
       color: ${Colors.secundary};
+      text-align: center;
     }
 
     p {
