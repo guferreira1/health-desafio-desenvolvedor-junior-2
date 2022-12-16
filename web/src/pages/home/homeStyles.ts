@@ -3,12 +3,15 @@ import { Colors } from "../../themes/themeColors";
 
 export const HomeStyles = styled.main`
   display: flex;
-  /* justify-content: space-between; */
   flex-direction: column;
   background-color: ${Colors.primary};
   gap: 20px;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+
+  @media (min-width: 768px) {
+    height: 100vh;
+  }
 
   .description {
     display: flex;

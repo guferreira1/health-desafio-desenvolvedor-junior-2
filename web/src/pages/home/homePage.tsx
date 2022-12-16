@@ -1,5 +1,5 @@
 import { HeaderComponent } from "../../components/headerComponent/headerComponent";
-import { SearchComponent } from "../../components/searchComponent/registerPetComponent";
+import { RegisterNewPet } from "../../components/registerPetComponent/registerPetComponent";
 import { HomeStyles } from "./homeStyles";
 
 export const HomePage = () => {
@@ -21,7 +21,7 @@ export const HomePage = () => {
           harum amet.
         </p>
       </div>
-      <SearchComponent />
+      <RegisterNewPet />
     </HomeStyles>
   );
 };
