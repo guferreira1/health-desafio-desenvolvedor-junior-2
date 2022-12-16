@@ -1,5 +1,5 @@
 export interface petsInterface {
-  id: string;
+  id?: string;
   name: string;
   age: number;
   breed: string;
@@ -16,5 +16,5 @@ export interface editPetInterface {
 }
 
 export interface petsInterfaceResp extends petsInterface {
-  pets: [];
+  pets: petsInterface;
 }
