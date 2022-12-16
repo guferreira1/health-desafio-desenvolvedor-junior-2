@@ -2,6 +2,7 @@ import { CardComponent } from "../../components/cardComponent/cardComponent";
 import { HeaderComponent } from "../../components/headerComponent/headerComponent";
 import { DeleteModal } from "../../components/modals/deleteModal/deleteModal";
 import { EditModal } from "../../components/modals/editModal/editModal";
+import { InfoModal } from "../../components/modals/infoModal/infoModal";
 import { PetStyles } from "./petsPageStyles";
 
 export const PetsPage = () => {
@@ -10,7 +11,7 @@ export const PetsPage = () => {
       <HeaderComponent />
 
       <CardComponent />
-
+      <InfoModal />
       <DeleteModal />
       <EditModal />
     </PetStyles>
