@@ -9,6 +9,11 @@ export const Card = styled.ul`
   margin: 0 auto;
   padding: 10px;
 
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
   li {
     display: flex;
     flex-direction: column;
@@ -19,6 +24,10 @@ export const Card = styled.ul`
     padding: 10px;
     background-color: ${Colors.secundary};
     border-radius: 5px;
+
+    @media (min-width: 768px) {
+      width: 300px;
+    }
 
     p {
       font-size: 1rem;
